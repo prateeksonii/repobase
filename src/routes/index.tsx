@@ -8,12 +8,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TypographyMuted } from "@/components/ui/typography";
 import type { SearchResult } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { CircleDot, GitFork, Star } from "lucide-react";
-import { type FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useState } from "react";
 
 export const Route = createFileRoute("/")({
 	component: App,
@@ -33,7 +32,7 @@ async function searchRepositories(query: string, page = 1) {
 
 function App() {
 	const [query, setQuery] = useState("");
-	const [page, setPage] = useState(1);
+	const [page, _setPage] = useState(1);
 
 	const { isPending, isError, data } = useQuery({
 		queryKey: ["search_repos", query, page],
