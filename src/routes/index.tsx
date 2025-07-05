@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { numberFormatter } from "@/lib/utils";
 import type { SearchResult } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -109,14 +110,17 @@ function App() {
 									<CardContent>
 										<div className="flex items-center gap-5">
 											<Badge className="flex items-center">
-												<CircleDot size={12} /> {d.open_issues_count} Open
+												<CircleDot size={12} />{" "}
+												{numberFormatter.format(d.open_issues_count)} Open
 												Issues
 											</Badge>
 											<Badge variant="secondary" className="flex items-center">
-												<GitFork size={12} /> {d.forks_count} Forks
+												<GitFork size={12} />{" "}
+												{numberFormatter.format(d.forks_count)} Forks
 											</Badge>
 											<Badge variant="secondary" className="flex items-center">
-												<Star size={12} /> {d.stargazers_count} Stars
+												<Star size={12} />{" "}
+												{numberFormatter.format(d.stargazers_count)} Stars
 											</Badge>
 										</div>
 									</CardContent>
