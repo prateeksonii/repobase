@@ -1,18 +1,10 @@
-import { Badge } from "@/components/ui/badge";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { numberFormatter } from "@/lib/utils";
+import SearchForm from "@/components/SearchForm";
+import SearchItemCard from "@/components/SearchItemCard";
+import { TypographyH1 } from "@/components/ui/typography";
 import type { SearchResult } from "@/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { CircleDot, GitFork, Loader, Star } from "lucide-react";
+import { Loader } from "lucide-react";
 import React, { type FormEvent, useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -80,16 +72,13 @@ function App() {
 		const formData = new FormData(event.currentTarget);
 		const query = formData.get("search") as string;
 
-		setQuery(query);
+		setQuery(`${query}`);
 	};
 
 	return (
 		<>
-			<form onSubmit={onSubmit}>
-				<Label className="mb-2">Search any repository</Label>
-				<Input name="search" placeholder="Press Enter to search" />
-			</form>
-			{isPending}
+			<TypographyH1 className="mb-8">RepoBase</TypographyH1>
+			<SearchForm onSubmit={onSubmit} />
 			<div className="mt-4 mb-8">
 				{isPending && (
 					<div>
@@ -102,29 +91,7 @@ function App() {
 						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 						<React.Fragment key={i}>
 							{group?.items?.map((d) => (
-								<Card key={d.id}>
-									<CardHeader>
-										<CardTitle>{d.full_name}</CardTitle>
-										<CardDescription>{d.description ?? ""}</CardDescription>
-									</CardHeader>
-									<CardContent>
-										<div className="flex items-center gap-5">
-											<Badge className="flex items-center">
-												<CircleDot size={12} />{" "}
-												{numberFormatter.format(d.open_issues_count)} Open
-												Issues
-											</Badge>
-											<Badge variant="secondary" className="flex items-center">
-												<GitFork size={12} />{" "}
-												{numberFormatter.format(d.forks_count)} Forks
-											</Badge>
-											<Badge variant="secondary" className="flex items-center">
-												<Star size={12} />{" "}
-												{numberFormatter.format(d.stargazers_count)} Stars
-											</Badge>
-										</div>
-									</CardContent>
-								</Card>
+								<SearchItemCard searchItem={d} key={d.id} />
 							))}
 						</React.Fragment>
 					))}
